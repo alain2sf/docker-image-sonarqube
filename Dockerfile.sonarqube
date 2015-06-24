@@ -1,0 +1,75 @@
+FROM java:openjdk-8u45-jre
+
+MAINTAINER ZenEntropy <alain.pulluelo@gmail.com>
+# Many thanks to David Gageot <david.gageot@sonarsource.com> for is SonarQube post on Docker Hub
+# https://registry.hub.docker.com/_/sonarqube/
+
+ENV SONARQUBE_HOME /opt/sonarqube
+
+# Http port
+EXPOSE 9000
+
+# H2 Database port
+EXPOSE 9092
+
+# Database configuration
+# Defaults to using H2
+ENV SONARQUBE_JDBC_USERNAME sonar
+ENV SONARQUBE_JDBC_PASSWORD sonar
+ENV SONARQUBE_JDBC_URL jdbc:h2:tcp://localhost:9092/sonar
+
+ENV SONAR_VERSION 5.1.1
+ENV RUNNER_VERSION 2.4
+ENV CODE_PROJECT OpenConnect
+
+# pub   2048R/24452160 2011-11-01 [expires: 2016-12-15]
+#       Key fingerprint = A58D 5AF5 4809 A8A6 3F45  8BBD 56CD 8D5D 2445 2160
+# uid                  Eric Hartmann <eric.hartmann@sonarsource.com>
+# sub   2048R/562C56C0 2011-11-01 [expires: 2016-12-15]
+RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 56CD8D5D24452160
+
+# SonarQube setup
+RUN set -x \
+	&& cd /opt \
+	&& curl -o sonarqube.zip -fSL http://downloads.sonarsource.com/sonarqube/sonarqube-$SONAR_VERSION.zip \
+	&& curl -o sonarqube.zip.asc -fSL http://downloads.sonarsource.com/sonarqube/sonarqube-$SONAR_VERSION.zip.asc \
+	&& gpg --verify sonarqube.zip.asc \
+	&& unzip sonarqube.zip \
+	&& mv sonarqube-$SONAR_VERSION sonarqube \
+	&& rm sonarqube.zip* \
+	&& rm -rf $SONARQUBE_HOME/bin/*
+
+# SonarQube Runner setup
+RUN set -x \
+	&& cd /root \
+	&& curl -o sonarrunner.zip -fSL http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/$RUNNER_VERSION/sonar-runner-dist-$RUNNER_VERSION.zip \
+	&& unzip sonarrunner.zip \
+	&& ln -s sonar-runner-2.4 sonar-runner \
+	&& rm sonarrunner.zip
+
+WORKDIR /root
+# SonarQube Runner bash shell environment
+RUN echo "#" >> .bashrc
+RUN echo "# SonarQube Runner Variables" >> .bashrc
+RUN echo "export PATH=\$PATH:/root/sonar-runner/bin" >> .bashrc
+RUN echo "export SONAR_RUNNER_HOME=/root/sonar-runner" >> .bashrc
+
+WORKDIR /root/sonar-runner/conf
+# SonarQube Runner Configuration
+RUN mv sonar-runner.properties sonar-runner.properties.NOK
+COPY sonar-runner.properties ./
+RUN chmod 644 sonar-runner.properties
+
+WORKDIR /root
+# SonarQube Runner Project Configuration
+COPY sonar-project.properties ./
+RUN chmod 644 sonar-project.properties
+# Project Source Code Directory
+RUN mkdir $CODE_PROJECT
+
+# Final step: ENTRYPOINT/CMD
+WORKDIR $SONARQUBE_HOME
+COPY run.sh $SONARQUBE_HOME/bin/
+RUN chmod 744 $SONARQUBE_HOME/bin/run.sh
+
+ENTRYPOINT ["./bin/run.sh"]
