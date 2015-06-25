@@ -81,21 +81,21 @@ INFO:  -X,--debug            Produce execution debug output
 __Get the source code and expand it under the defined project directory:__
 
 ```bash
-root@sonarqube:~/OpenConnect# curl -O http://<my source vault>/OpenConnect-Sources.tgz
-root@sonarqube:~/OpenConnect# tar xvzf OpenConnect-Sources.tgz
-root@sonarqube:~/OpenConnect# rm OpenConnect-Sources.tgz
-root@sonarqube:~/OpenConnect# cd ..
+root@sonarqube:~/MySampleSources# curl -O http://<source_vault>/MySampleSources-Tree.tgz
+root@sonarqube:~/MySampleSources# tar xvzf MySampleSources-Tree.tgz
+root@sonarqube:~/MySampleSources# rm MySampleSources-Tree.tgz
+root@sonarqube:~/MySampleSources# cd ..
 ```
 
 <br>
 __Sonar Runner command must be executed at the same level as the corresponding project properties file `sonar-project.properties`, otherwise use the -D swich, or change the sonar.sources property accordingly:__
 >
-> sonar-runner -Dsonar.sources=./OpenConnect \ <br>
->             -Dsonar.projectKey=OpenConnect \ <br>
->             -Dsonar.projectName=OpenConnect \ <br>
+> sonar-runner -Dsonar.sources=./MySampleSources \ <br>
+>             -Dsonar.projectKey=MySampleSources \ <br>
+>             -Dsonar.projectName=MySampleSources \ <br>
 >             -Dsonar.projectVersion=1.0 <br>
 >
-> NOTE: The `sonar-project.properties` file defines the project (source code tree) to be analysed, the source directory location is relative to the properties file as the sonar.sources property is meant to define it (./OpenConnect)
+> NOTE: The `sonar-project.properties` file defines the project (source code tree) to be analysed, the source directory location is relative to the properties file as the sonar.sources property is meant to define it (./MySampleSources)
 
 ```bash
 root@sonarqube:~/# sonar-runner
@@ -128,12 +128,12 @@ INFO: SonarQube Server 5.1.1
 15:10:28.998 INFO  - Load technical debt model
 15:10:29.016 INFO  - Apply project exclusions
 15:10:29.716 WARN  - SCM provider autodetection failed. No SCM provider claims to support this project. Please use sonar.scm.provider to define SCM of your project.
-15:10:29.718 INFO  - -------------  Scan OpenConnect
+15:10:29.718 INFO  - -------------  Scan MySampleSources
 15:10:29.722 INFO  - Load module settings
 15:10:29.994 INFO  - Load rules
 15:10:30.192 INFO  - Base dir: /root
 15:10:30.192 INFO  - Working dir: /root/.sonar
-15:10:30.193 INFO  - Source paths: OpenConnect
+15:10:30.193 INFO  - Source paths: MySampleSources
 15:10:30.193 INFO  - Source encoding: UTF-8, default locale: en
 15:10:30.194 INFO  - Index files
 15:10:30.640 INFO  - 627 files indexed
@@ -141,7 +141,7 @@ INFO: SonarQube Server 5.1.1
 15:10:33.052 INFO  - Sensor JavaSquidSensor
 15:10:33.387 INFO  - Java Main Files AST scan...
 15:10:33.390 INFO  - 627 source files to be analyzed
-15:10:43.391 INFO  - 461/627 files analyzed, current is /root/OpenConnect/2.0.2-SNAPSHOT/oc-server-session-agent-services/src/main/java/com/indigo/oc/session/agent/service/DeviceAliasHelper.java
+15:10:43.391 INFO  - 461/627 files analyzed, current is /root/MySampleSources/2.0.2-SNAPSHOT/oc-server-session-agent-services/src/main/java/com/indigo/oc/session/agent/service/DeviceAliasHelper.java
 15:10:46.360 INFO  - Java Main Files AST scan done: 12973 ms
 15:10:46.360 INFO  - 627/627 source files analyzed
 15:10:46.361 WARN  - Java bytecode has not been made available to the analyzer. The org.sonar.java.bytecode.visitor.DependenciesVisitor@1539e85, org.sonar.java.checks.UnusedPrivateMethodCheck@239ee8b6, org.sonar.java.checks.RedundantThrowsDeclarationCheck@29cf4f43 are disabled.
@@ -179,7 +179,7 @@ INFO: SonarQube Server 5.1.1
 15:11:01.523 INFO  - Analysis reports generated in 203ms, dir size=1 MB
 15:11:01.875 INFO  - Analysis reports compressed in 351ms, zip size=896 KB
 15:11:01.923 INFO  - Analysis reports sent to server in 48ms
-15:11:01.923 INFO  - ANALYSIS SUCCESSFUL, you can browse http://localhost:9000/dashboard/index/OpenConnect
+15:11:01.923 INFO  - ANALYSIS SUCCESSFUL, you can browse http://localhost:9000/dashboard/index/MySampleSources
 15:11:01.923 INFO  - Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report.
 INFO: ------------------------------------------------------------------------
 INFO: EXECUTION SUCCESS
@@ -196,6 +196,6 @@ __BROWSE THE ANALYSIS:__
 
 	> No need to be logged in to browse an analysed project (public access)
 
-- OpenConnect project should be listed in the Project folder, select it and navigate...
+- MySampleSources project should be listed in the Project folder, select it and navigate...
 
-	> Direct URL: http://sonarqube.zenentropy.net:9000/dashboard/index/OpenConnect
+	> Direct URL: http://sonarqube.zenentropy.net:9000/dashboard/index/MySampleSources
