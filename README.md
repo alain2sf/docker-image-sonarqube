@@ -190,7 +190,7 @@ INFO: ------------------------------------------------------------------------
 ```
 
 <br>
-__BROWSE THE ANALYSIS:__
+__Browse the Analysis:__
 
 - SonarQube Web front end from host browser: http://sonarqube.zenentropy.net:9000
 
@@ -199,3 +199,14 @@ __BROWSE THE ANALYSIS:__
 - MySampleSources project should be listed in the Project folder, select it and navigate...
 
 	> Direct URL: http://sonarqube.zenentropy.net:9000/dashboard/index/MySampleSources
+
+<br>
+__TBD:__
+
+1. _SourceMeter Plugin:_
+
+	- https://www.sourcemeter.com/
+	- https://github.com/FrontEndART/SonarQube-plug-in
+	- http://conferences.computer.org/scam/2014/papers/6148a077.pdf
+	- http://stackoverflow.com/questions/5479019/is-sonar-replacement-for-checkstyle-pmd-findbugs
+	- https://wikis.forgerock.org/confluence/display/QA/Security+Testing
