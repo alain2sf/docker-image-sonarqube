@@ -57,11 +57,13 @@ RUN echo "export SONAR_RUNNER_HOME=/root/sonar-runner" >> .bashrc
 WORKDIR /root/sonar-runner/conf
 # SonarQube Runner Configuration
 RUN mv sonar-runner.properties sonar-runner.properties.NOK
+# ADD/COPY always run with root uid... even if USER is set to a different user :(
 COPY sonar-runner.properties ./
 RUN chmod 644 sonar-runner.properties
 
 WORKDIR /root
 # SonarQube Runner Project Configuration
+# ADD/COPY always run with root uid... even if USER is set to a different user :(
 COPY sonar-project.properties ./
 RUN chmod 644 sonar-project.properties
 # Project Source Code Directory
@@ -69,6 +71,7 @@ RUN mkdir $CODE_PROJECT
 
 # Final step: ENTRYPOINT/CMD
 WORKDIR $SONARQUBE_HOME
+# ADD/COPY always run with root uid... even if USER is set to a different user :(
 COPY run.sh $SONARQUBE_HOME/bin/
 RUN chmod 744 $SONARQUBE_HOME/bin/run.sh
 
