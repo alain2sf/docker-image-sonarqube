@@ -1,13 +1,17 @@
-## Necessary Materials to Build a Docker Image of a SonarQube Server and How to setup Sonar Runner to Analyse Java Source Code
+# SonarQube with Docker
 
-### Create the Docker Initial Image
+[TOC "float:right"]
+
+## 1. Build/Run a SonarQube Server Docker Image
+
+### 1.1. Create the Docker Initial Image
 
 1. Change/Customize your image name/tag into `docker_build.sh`
 > Refers Dockerfile: `Dockerfile.sonarqube`
 
 2. Run the shell file `docker_build.sh` to build the initial docker image
 
-### Create/Run the Container
+### 1.2. Create/Run the Container
 
 1. Change/Customize your image name/tag, hosts, ports and container name into `docker_run.sh`
 > Refers init command: `run.sh`
@@ -17,15 +21,15 @@
 > Check your container with `docker ps` <br>
 > Remove your container with `docker rm container_name`
 
-### BASH Shell Session to the Container
+
+### 1.3. BASH Shell Session to the Container
 
 1. Change/Customize your container name into `docker_exec.sh`
 
 2. Run `docker_exec.sh` to create a bash shell session to the container
 
-<br>
----
-__NOTES__
+
+### 1.4. Notes
 
 - Original Official Dockerfile for SonarQube: https://registry.hub.docker.com/_/sonarqube/
 
@@ -33,8 +37,7 @@ __NOTES__
 
 - How to analyse your source code: http://docs.sonarqube.org/display/SONAR/Analyzing+with+SonarQube+Runner
 
-<br>
-__IMPORTANT BEFORE CONTINUING FURTHER__
+### 1.5. Important Before Continuing Further
 
 - Prepare the /etc/hosts of the Docker Host: `192.168.99.100  sonarqube.zenentropy.net`
 
@@ -48,7 +51,7 @@ __IMPORTANT BEFORE CONTINUING FURTHER__
 	> No need to be logged in to browse an analysed project (public access)
 
 - Double check and eventually install/update the right language plugin (Java plugin is installed by default but might need an update): http://docs.sonarqube.org/display/PLUG/Java+Plugin
-	> 1. Login as administrator <br>
+	> 1. Login as administrator 
 	> __Administrator user credentials:__ admin/admin <br>
 	> 2. Go to: Settings | System | Update Center <br>
 	> 3. Use: "Installed Plugins" or "Available Plugins" or "Plugin Updates" depending on your source code language requirement <br>
@@ -56,47 +59,47 @@ __IMPORTANT BEFORE CONTINUING FURTHER__
 	> 5. Exit any Docker exec session and restart the container
 
 <br>
-__ANALYSE THE SOURCE CODE__
-
 <br>
-__Start a Docker exec session with a bash shell:__
+## 2. Setup Sonar Runner to Analyse Java Source Code
 
-```bash
-$ docker_exec.sh
+### 2.1. Analysing the source code
 
-root@sonarqube:/opt/sonarqube# cd
-root@sonarqube:~# sonar-runner -h
-INFO:
-INFO: usage: sonar-runner [options]
-INFO:
-INFO: Options:
-INFO:  -D,--define <arg>     Define property
-INFO:  -e,--errors           Produce execution error messages
-INFO:  -h,--help             Display help information
-INFO:  -v,--version          Display version information
-INFO:  -X,--debug            Produce execution debug output
-```
+- ##### Start a Docker exec session with a bash shell
 
-<br>
-__Get the source code and expand it under the defined project directory:__
+	```bash
+	$ docker_exec.sh
 
-```bash
-root@sonarqube:~/MySampleSources# curl -O http://<source_vault>/MySampleSources-Tree.tgz
-root@sonarqube:~/MySampleSources# tar xvzf MySampleSources-Tree.tgz
-root@sonarqube:~/MySampleSources# rm MySampleSources-Tree.tgz
-root@sonarqube:~/MySampleSources# cd ..
-```
+	root@sonarqube:/opt/sonarqube# cd
+	root@sonarqube:~# sonar-runner -h
+	INFO:
+	INFO: usage: sonar-runner [options]
+	INFO:
+	INFO: Options:
+	INFO:  -D,--define <arg>     Define property
+	INFO:  -e,--errors           Produce execution error messages
+	INFO:  -h,--help             Display help information
+	INFO:  -v,--version          Display version information
+	INFO:  -X,--debug            Produce execution debug output
+	```
 
-<br>
-__Sonar Runner command must be executed at the same level as the corresponding project properties file `sonar-project.properties`, otherwise use the -D swich, or change the sonar.sources property accordingly:__
->
-> sonar-runner -Dsonar.sources=./MySampleSources \ <br>
->             -Dsonar.projectKey=MySampleSources \ <br>
->             -Dsonar.projectName=MySampleSources \ <br>
->             -Dsonar.projectVersion=1.0 <br>
->
+- ##### Get the source code and expand it under the defined project directory
+
+    ```bash
+    root@sonarqube:~/MySampleSources# curl -O http://<source>/MySampleSources-Tree.tgz
+    root@sonarqube:~/MySampleSources# tar xvzf MySampleSources-Tree.tgz
+    root@sonarqube:~/MySampleSources# rm MySampleSources-Tree.tgz
+    root@sonarqube:~/MySampleSources# cd ..
+    ```
+
+- ##### Launch Sonar Runner
+Sonar Runner command must be executed at the same level as the corresponding project properties file `sonar-project.properties`, otherwise use the -D swich, or change the sonar.sources property accordingly
+>     sonar-runner -Dsonar.sources=./MySampleSources \
+>     -Dsonar.projectKey=MySampleSources \
+>     -Dsonar.projectName=MySampleSources \
+>     -Dsonar.projectVersion=1.0
 > NOTE: The `sonar-project.properties` file defines the project (source code tree) to be analysed, the source directory location is relative to the properties file as the sonar.sources property is meant to define it (./MySampleSources)
 
+<br>
 ```bash
 root@sonarqube:~/# sonar-runner
 SonarQube Runner 2.4
@@ -189,8 +192,7 @@ Final Memory: 13M/252M
 INFO: ------------------------------------------------------------------------
 ```
 
-<br>
-__Browse the Analysis:__
+### 2.2. Browse the Analysis
 
 - SonarQube Web front end from host browser: http://sonarqube.zenentropy.net:9000
 
@@ -201,7 +203,8 @@ __Browse the Analysis:__
 	> Direct URL: http://sonarqube.zenentropy.net:9000/dashboard/index/MySampleSources
 
 <br>
-__TBD:__
+<br>
+## 3. TBD
 
 1. _SourceMeter Plugin:_
 
