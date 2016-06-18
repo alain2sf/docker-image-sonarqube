@@ -49,10 +49,10 @@ RUN set -x \
 
 WORKDIR /root
 # SonarQube Runner bash shell environment
-RUN echo "#" >> .bashrc
-RUN echo "# SonarQube Runner Variables" >> .bashrc
-RUN echo "export PATH=\$PATH:/root/sonar-runner/bin" >> .bashrc
-RUN echo "export SONAR_RUNNER_HOME=/root/sonar-runner" >> .bashrc
+RUN echo "#" >> .bashrc \
+ && echo "# SonarQube Runner Variables" >> .bashrc \
+ && echo "export PATH=\$PATH:/root/sonar-runner/bin" >> .bashrc \
+ && echo "export SONAR_RUNNER_HOME=/root/sonar-runner" >> .bashrc
 
 WORKDIR /root/sonar-runner/conf
 # SonarQube Runner Configuration
