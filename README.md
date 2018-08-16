@@ -100,6 +100,7 @@ Sonar Runner command must be executed at the same level as the corresponding pro
 > NOTE: The `sonar-project.properties` file defines the project (source code tree) to be analysed, the source directory location is relative to the properties file as the sonar.sources property is meant to define it (./MySampleSources)
 
 <br>
+
 ```bash
 root@sonarqube:~/# sonar-runner
 SonarQube Runner 2.4
