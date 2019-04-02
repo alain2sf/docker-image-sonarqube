@@ -6,7 +6,7 @@ docker run -it -d \
            --add-host sonarqube.zenentropy.net:127.0.0.1 \
            --hostname sonarqube.zenentropy.net \
            --name mysonarqube \
-           zenentropy/sonarqube:v1
+           zenentropy/sonarqube:5.1.1
 
 set +v
 docker ps

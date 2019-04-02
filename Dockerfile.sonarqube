@@ -1,6 +1,6 @@
 FROM java:openjdk-8u45-jre
 
-MAINTAINER ZenEntropy <alain.pulluelo@gmail.com>
+LABEL maintainer="ZenEntropy <alain.pulluelo@gmail.com>"
 # Many thanks to David Gageot <david.gageot@sonarsource.com> for is SonarQube post on Docker Hub
 # https://registry.hub.docker.com/_/sonarqube/
 

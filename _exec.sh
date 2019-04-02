@@ -1,6 +1,6 @@
 #!/bin/bash
 
 set -v
-docker exec -it mysonarqube /bin/bash
+docker exec -it zsonarqube /bin/bash
 
 exit
